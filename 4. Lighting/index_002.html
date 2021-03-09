@@ -1,0 +1,86 @@
+<html>
+<head>
+    <title>Three.Js Crash Course</title>
+
+    <style>
+        body {margin: 0;}
+        canvas {width: 100%; height: 100%;}
+    </style>
+</head>
+<body>
+<script src="js/three.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script>
+    // Our javascript will go here.
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerHeight, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // looking at updating a viewport on resize
+    window.addEventListener('resize', function()
+        {
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            renderer.setSize(width,height);
+
+            camera.aspect = width/height;
+            camera.updateProjectionMatrix();
+        }
+    );
+
+    //Implementing a control system
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // create the shape
+    let geometry = new THREE.BoxGeometry(2, 2, 2);
+
+    //texture and colours
+    let cubeMaterials =
+        [
+            new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'img/1.jpeg' ), side: THREE.DoubleSide}),
+            new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().load('img/2.jpeg'), side: THREE.DoubleSide}),
+            new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('img/3.jpg'), side: THREE.DoubleSide}),
+            new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().load('img/4.jpeg'), side: THREE.DoubleSide}),
+            new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('img/5.jpg'), side: THREE.DoubleSide}),
+            new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('img/6.jpg'), side: THREE.DoubleSide})
+        ];
+
+    // create a material, colour or image texture
+    // let material = new THREE.MeshBasicMaterial({ color: 0xff00, wireframe: false});
+    let material = new THREE.MeshFaceMaterial(cubeMaterials);
+    let cube = new THREE.Mesh(geometry, material);
+    scene.add( cube );
+    camera.position.z = 3;
+
+    // Ambient  Lighting
+    let ambientLight = new THREE.AmbientLight( 0xFFFFFF, 2.0);
+    scene.add(ambientLight);
+
+
+    let update = function () {
+
+        //rotate our cube every frame
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.005;
+
+    };
+    // Draw Scene
+    let render = function () {
+
+        renderer.render(scene, camera);
+    };
+    // run game loop(update, render, repeat)
+    let GameLoop = function () {
+        requestAnimationFrame(GameLoop);
+        update();
+        render();
+
+    };
+    GameLoop();
+</script>
+</body>
+
+</html>
