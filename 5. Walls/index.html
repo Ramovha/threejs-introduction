@@ -92,14 +92,47 @@
 
     // Ambient  Lighting
     let ambientLight = new THREE.AmbientLight( 0xFFFFFF, 2.0);
-    scene.add(ambientLight);
+    //scene.add(ambientLight);
 
+    //point Light
+    let light1 = new THREE.PointLight(0xFF0040, 2, 50);
+    //scene.add(light1);
+    let light2 = new THREE.PointLight(0x80FF80, 1.2, 50);
+    //scene.add(light2);
+    let light3 = new THREE.PointLight(0X0040FF, 3, 50);
+    //scene.add(light3);
+
+    // directional lighting
+
+    let directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+    directionalLight.position.set(0, 1, 0);
+    //scene.add(directionalLight);
+
+    //Spotlight
+    let spotlight = new THREE.SpotLight(0xFF45F6, 25);
+    spotlight.position.set(0, 3, 0);
+    scene.add(spotlight);
 
     let update = function () {
 
         //rotate our cube every frame
         //cube.rotation.x += 0.01;
         //cube.rotation.y += 0.005;
+
+        let time = Date.now()* 0.0005;
+        light1.position.x = Math.sin(time*0.7)*30;
+        light1.position.y = Math.cos(time*0.5)*30;
+        light1.position.z = Math.cos(time*0.3)*30;
+
+        light2.position.x = Math.cos(time*0.7)*30;
+        light2.position.y = Math.sin(time*0.5)*30;
+        light2.position.z = Math.sin(time*0.3)*30;
+
+        light3.position.x = Math.sin(time*0.7)*30;
+        light3.position.y = Math.cos(time*0.5)*30;
+        light3.position.z = Math.cos(time*0.3)*30;
+
+
 
     };
     // Draw Scene
